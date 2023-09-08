@@ -2,7 +2,7 @@ import { clientServices } from "../service/client-service.js";
 
 const form = document.querySelector("[data-form]");
 
-const obtenerInformacion = () => {
+const obtenerInformacion = async() => {
     const url = new URL(window.location)
     const id = url.searchParams.get("id")
 
@@ -12,16 +12,23 @@ const obtenerInformacion = () => {
 
     const nombre = document.querySelector("[data-nombre]")
     const email = document.querySelector("[data-email]")
-
-    clientServices.editarCliente(id).then( (perfil) => {
-        nombre.value = perfil.nombre;
-        email.value = perfil.email;
-    });
+    
+    try {
+        const perfil = await clientServices.editarCliente(id);
+        if(perfil.nombre && perfil.email){
+            nombre.value = perfil.nombre;
+            email.value = perfil.email;
+        } else{
+            throw new Error();
+        }
+    }catch(error){
+        window.location.href = "/screens/error.html";
+    }
 };
 
 obtenerInformacion();
 
-form.addEventListener("submit", (evento) => {
+form.addEventListener("submit", async(evento) => {
     evento.preventDefault();
     const url = new URL(window.location)
     const id = url.searchParams.get("id")
@@ -29,8 +36,12 @@ form.addEventListener("submit", (evento) => {
     const nombre = document.querySelector("[data-nombre]").value;
     const email = document.querySelector("[data-email]").value;
     
-    clientServices.actualizarCliente(nombre, email, id).then(() => {
+    try{
+        await clientServices.actualizarCliente(nombre, email, id)
         window.location.href = "/screens/edicion_concluida.html";
-    })
+    } catch(error){
+        window.location.href = "/screens/error.html";
+    }
+    
 
 });
