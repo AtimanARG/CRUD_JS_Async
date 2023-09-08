@@ -1,9 +1,14 @@
 {
   "perfil": [
     {
-      "nombre": "Atilio",
-      "email": "correo@correo.com",
+      "nombre": "Atilio Mariano Modenutti",
+      "email": "atilio@correo.com",
       "id": 1
+    },
+    {
+      "nombre": "Agustina Anabella Castro Gallardo",
+      "email": "agustina@correo.com",
+      "id": "18479c2e-2341-41b2-afa7-aeb7e6214c71"
     }
   ]
 }
